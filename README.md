@@ -1,6 +1,6 @@
 # Tower Defense
 
-#### Ini adalah repository untuk project Tower Defense pada course game programming chapter 4 Dilo Game Academy
+#### Repository untuk project Tower Defense pada course game programming chapter 4 Dilo Game Academy
 
 ## Project Features
 1. Drag and Drop Tower
