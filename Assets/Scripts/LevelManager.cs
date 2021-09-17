@@ -62,9 +62,15 @@ public class LevelManager : MonoBehaviour
         // Jika menekan tombol R, fungsi restart akan terpanggil
         if (Input.GetKeyDown(KeyCode.R))
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            SceneManager.LoadScene("GamePlay");
         }
-        
+
+        // Jika menekan tombol ESC, akan keluar
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+
         if (IsOver)
         {
             return;
@@ -219,20 +225,20 @@ public class LevelManager : MonoBehaviour
         // Mathf.Max fungsi nya adalah mengambil angka terbesar
         // sehingga _currentLives di sini tidak akan lebih kecil dari 0
         _currentLives = Mathf.Max(currentLives, 0);
-        _livesInfo.text = $"Lives: {_currentLives}";
+        _livesInfo.text = $"LIVES: {_currentLives}";
     }
 
     public void SetTotalEnemy(int totalEnemy)
     {
         _enemyCounter = totalEnemy;
-        _totalEnemyInfo.text = $"Total Enemy: {Mathf.Max(_enemyCounter, 0)}";
+        _totalEnemyInfo.text = $"TOTAL ENEMY: {Mathf.Max(_enemyCounter, 0)}";
     }
     
     public void SetGameOver(bool isWin)
     {
         IsOver = true;
         
-        _statusInfo.text = isWin ? "You Win!" : "You Lose!";
+        _statusInfo.text = isWin ? "YOU WIN!" : "YOU LOSE!";
         _panel.gameObject.SetActive(true);
     }
 
