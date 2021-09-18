@@ -1,14 +1,17 @@
 # Tower Defense
 
 #### Repository untuk project Tower Defense pada course game programming chapter 4 Dilo Game Academy
+#### Kalahkan 3 Boss untuk memenangkan game ini
+#### Boss akan muncul saat Total Enemy tersisa 5
 
 ## Project Features
-1. Drag and Drop Tower
+1. Drag and Drop Multiple Tower in 1 Tower Placement
 2. Enemy Following Path
 3. Enemy Variant
-4. Tower Attacking Enemy
-5. Audio
-6. Win/Lose Condition
+4. Boss Enemy
+5. Tower Attacking Enemy
+6. Audio
+7. Win/Lose Condition
 
 ## Example Scene
 
@@ -19,7 +22,7 @@
 
 <p align="center">
   <b>GamePlay</b><br>
-  <img src="https://user-images.githubusercontent.com/89434953/133744103-10d16e8e-5806-4924-bf27-e52b658d2d9f.png" width="600" height="338" />
+  <img src="https://user-images.githubusercontent.com/89434953/133896816-0d6f2dd0-6df0-4847-a275-5bc76f657bf3.png" width="600" height="338" />
 </p>
 
 <p align="center">
