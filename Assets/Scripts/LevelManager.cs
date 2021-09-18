@@ -34,12 +34,14 @@ public class LevelManager : MonoBehaviour
     
     [SerializeField] private Tower[] _towerPrefabs;
     [SerializeField] private Enemy[] _enemyPrefabs;
+    [SerializeField] private Enemy[] _enemyBossPrefabs;
 
     [SerializeField] private Transform[] _enemyPaths;
     [SerializeField] private float _spawnDelay = 5f;
 
     private List<Tower> _spawnedTowers = new List<Tower>();
     private List<Enemy> _spawnedEnemies = new List<Enemy>();
+    private List<Enemy> _spawnedBossEnemies = new List<Enemy>();
     private List<Bullet> _spawnedBullets = new List<Bullet>();
 
     private int _currentLives;
@@ -89,6 +91,7 @@ public class LevelManager : MonoBehaviour
         foreach (Tower tower in _spawnedTowers)
         {
             tower.CheckNearestEnemy(_spawnedEnemies);
+            tower.CheckNearestEnemy(_spawnedBossEnemies);
             tower.SeekTarget();
             tower.ShootTarget();
         }
@@ -122,6 +125,34 @@ public class LevelManager : MonoBehaviour
                 enemy.MoveToTarget();
             }
         }
+
+        foreach (Enemy bossenemy in _spawnedBossEnemies)
+        {
+            if (!bossenemy.gameObject.activeSelf)
+            {
+                continue;
+            }
+
+            if (Vector2.Distance(bossenemy.transform.position, bossenemy.TargetPosition) < 0.1f)
+            {
+                bossenemy.SetCurrentPathIndex(bossenemy.CurrentPathIndex + 1);
+                if (bossenemy.CurrentPathIndex < _enemyPaths.Length)
+                {
+                    bossenemy.SetTargetPosition(_enemyPaths[bossenemy.CurrentPathIndex].position);
+                }
+
+                else
+                {
+                    ReduceLives(1);
+                    bossenemy.gameObject.SetActive(false);
+                }
+            }
+
+            else
+            {
+                bossenemy.MoveToTarget();
+            }
+        }
     }
 
     // Menampilkan seluruh Tower yang tersedia pada UI Tower Selection
@@ -143,19 +174,22 @@ public class LevelManager : MonoBehaviour
         _spawnedTowers.Add(tower);
     }
 
+    // spawn enemy
     private void SpawnEnemy()
     {
         SetTotalEnemy(--_enemyCounter);
+        if (_enemyCounter <= 5)
+        {
+            SpawnBossEnemy();
+        }
+
         if (_enemyCounter < 0)
         {
             bool isAllEnemyDestroyed = _spawnedEnemies.Find(e => e.gameObject.activeSelf) == null;
-            if (isAllEnemyDestroyed)
-            {
-                SetGameOver(true);
-            }
-            
+
             return;
         }
+
 
         int randomIndex = Random.Range(0, _enemyPrefabs.Length);
         string enemyIndexString = (randomIndex + 1).ToString();
@@ -178,6 +212,47 @@ public class LevelManager : MonoBehaviour
         newEnemy.SetCurrentPathIndex(1);
         newEnemy.gameObject.SetActive(true);
     }
+
+    // mohon maaf jika boros code :")
+    //SpawnBossEnemy
+    public void SpawnBossEnemy()
+    {
+        SetTotalEnemy(--_enemyCounter);
+
+        if (_enemyCounter < 0)
+        {
+            bool isAllEnemyDestroyed = _spawnedBossEnemies.Find(e => e.gameObject.activeSelf) == null;
+            if (isAllEnemyDestroyed)
+            {
+                SetGameOver(true);
+            }
+
+            return;
+        }
+
+        int randomIndex = Random.Range(0, _enemyBossPrefabs.Length);
+        string enemyIndexString = (randomIndex + 1).ToString();
+
+        GameObject newEnemyObj = _spawnedBossEnemies.Find(e => !e.gameObject.activeSelf && e.name.Contains(enemyIndexString))?.gameObject;
+
+        if (newEnemyObj == null)
+        {
+            newEnemyObj = Instantiate(_enemyBossPrefabs[randomIndex].gameObject);
+        }
+
+        Enemy newEnemy = newEnemyObj.GetComponent<Enemy>();
+        if (!_spawnedBossEnemies.Contains(newEnemy))
+        {
+            _spawnedBossEnemies.Add(newEnemy);
+        }
+
+        newEnemy.transform.position = _enemyPaths[0].position;
+        newEnemy.SetTargetPosition(_enemyPaths[1].position);
+        newEnemy.SetCurrentPathIndex(1);
+        newEnemy.gameObject.SetActive(true);
+    }
+
+
 
     public Bullet GetBulletFromPool(Bullet prefab)
     {

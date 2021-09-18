@@ -2319,6 +2319,8 @@ MonoBehaviour:
   _enemyPrefabs:
   - {fileID: 2662458787785126691, guid: 1ea715f669d71b446bca0b3a7adb6d41, type: 3}
   - {fileID: 6686898920753412992, guid: bd20da202bb1414428b9905268aef47f, type: 3}
+  _enemyBossPrefabs:
+  - {fileID: 4032955142940726691, guid: 1e93917bd6eb03a46b580a72d4571279, type: 3}
   _enemyPaths:
   - {fileID: 1613808898}
   - {fileID: 1288335279}
