@@ -178,6 +178,12 @@ public class LevelManager : MonoBehaviour
     private void SpawnEnemy()
     {
         SetTotalEnemy(--_enemyCounter);
+
+        if (_enemyCounter == 5)
+        {
+            AudioPlayer.Instance.PlaySFX("summon-boss");
+        }
+
         if (_enemyCounter <= 5)
         {
             SpawnBossEnemy();
